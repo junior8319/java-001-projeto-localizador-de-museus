@@ -29,7 +29,14 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Main spring-boot dependency -->
+      <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+      </dependency>
+
+
+      <!-- Main spring-boot dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
