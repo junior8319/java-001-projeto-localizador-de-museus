@@ -5,6 +5,7 @@ import com.betrybe.museumfinder.exception.InvalidCoordinateException;
 import com.betrybe.museumfinder.model.Coordinate;
 import com.betrybe.museumfinder.model.Museum;
 import com.betrybe.museumfinder.util.CoordinateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +15,16 @@ import org.springframework.stereotype.Service;
 public class MuseumService implements MuseumServiceInterface {
   private MuseumFakeDatabase museumFakeDatabase;
 
+  /**
+   * Instantiates a new Museum service.
+   *
+   * @param museumFakeDatabase the museum fake database
+   */
+  @Autowired
+  public MuseumService(MuseumFakeDatabase museumFakeDatabase) {
+    this.museumFakeDatabase = museumFakeDatabase;
+  }
+
   @Override
   public Museum getClosestMuseum(Coordinate coordinate, Double maxDistance) {
     return null;
@@ -21,14 +32,13 @@ public class MuseumService implements MuseumServiceInterface {
 
   @Override
   public Museum createMuseum(Museum museum) {
-    try {
-      if (CoordinateUtil.isCoordinateValid(museum.getCoordinate())) {
-        return museumFakeDatabase.saveMuseum(museum);
-      }
-    } catch (InvalidCoordinateException exception) {
-      throw new InvalidCoordinateException("Coordenada inválida.");
+    boolean isValidMuseumCoordinate = CoordinateUtil
+        .isCoordinateValid(museum.getCoordinate());
+    if (!isValidMuseumCoordinate) {
+      throw new InvalidCoordinateException("Coordenada inválida");
     }
-    return museum;
+
+    return this.museumFakeDatabase.saveMuseum(museum);
   }
 
   @Override

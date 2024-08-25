@@ -1,8 +1,11 @@
 package com.betrybe.museumfinder.model;
 
+import org.springframework.stereotype.Component;
+
 /**
  * The type Museum.
  */
+@Component
 public class Museum {
 
   /**
