@@ -2,6 +2,7 @@ package com.betrybe.museumfinder.solution;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
 
 import com.betrybe.museumfinder.database.MuseumFakeDatabase;
 import com.betrybe.museumfinder.dto.CollectionTypeCount;
@@ -12,8 +13,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
-import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @DisplayName("Testa a camada de serviço das CollectionTypes")
@@ -59,10 +58,14 @@ public class CollectionTypeServiceTest {
         collectionTypeService.countByCollectionTypes("história").count(),
         387L
     );
+    Mockito.verify(mockMuseumFakeDatabase).countByCollectionType(eq("história"));
+
     assertEquals(
         collectionTypeService.countByCollectionTypes("hist").count(),
         387L
     );
+    Mockito.verify(mockMuseumFakeDatabase, Mockito.atLeast(1))
+        .countByCollectionType(eq("hist"));
   }
 
   @Test
@@ -83,5 +86,7 @@ public class CollectionTypeServiceTest {
             .countByCollectionTypes(mockInvalidCollectionType).count(),
         0L
     );
+    Mockito.verify(mockMuseumFakeDatabase, Mockito.atLeast(2))
+        .countByCollectionType(eq("host"));
   }
 }
